@@ -34,9 +34,8 @@ const getBruxosById = (req, res) => {
       message: "Wizard not found in Hogwarts registry",
       error: "WIZARD_NOT_FOUND",
       suggestions: [
-        "Check the wizard name spelling",
-        "Verify if the wizard is registered",
-      ],
+        "Check the wizard id"
+      ]
     });
   }
 };
@@ -80,7 +79,6 @@ const nomeExiste = bruxos.some(
     id: bruxos.length + 1,
     nome,
     casa,
-    anoNascimento: parseInt(anoNascimento),
     especialidade,
     nivelMagia: nivelMagia,
     ativo,
@@ -89,6 +87,7 @@ const nomeExiste = bruxos.some(
   bruxos.push(novoBruxo);
 
   res.status(201).json({
+    status: 201,
     sucess: true,
     message: "Bruxo cadastrado com sucesso!",
     bruxo: novoBruxo,
@@ -107,17 +106,6 @@ const deleteBruxo = (req, res) => {
     });
   }
 
-  const idParaApagar = parseInt(id);
-
-  // Verificar se bruxo existe antes de remover
-  const bruxoParaRemover = bruxos.find((b) => b.id === idParaApagar);
-  if (!bruxoParaRemover) {
-    return res.status(404).json({
-      success: false,
-      message: `Bruxo com ID ${id} não encontrado para remoção!`,
-    });
-  }
-
    const { admin } = req.body;
 
     if (admin === false) {
@@ -131,6 +119,20 @@ const deleteBruxo = (req, res) => {
       ],
     });
   }
+
+
+  const idParaApagar = parseInt(id);
+
+  // Verificar se bruxo existe antes de remover
+  const bruxoParaRemover = bruxos.find((b) => b.id === idParaApagar);
+  if (!bruxoParaRemover) {
+    return res.status(404).json({
+      success: false,
+      message: `Bruxo com ID ${id} não encontrado para remoção!`,
+    });
+  }
+
+
 
   // Remover bruxo usando filter
   const bruxosFiltrados = bruxos.filter((bruxo) => bruxo.id !== idParaApagar);
