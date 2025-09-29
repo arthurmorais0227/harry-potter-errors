@@ -21,7 +21,12 @@ const getBruxosById = (req, res) => {
   const bruxo = bruxos.find((b) => b.id === id);
 
   if (bruxo) {
-    res.status(200).json(bruxo);
+    res.status(200).json({
+    status: 200,
+    success: true,
+    message: "Bruxo por ID encontrado",
+    bruxo: bruxo
+  })
   } else {
     res.status(404).json({
       status: 404,
@@ -55,8 +60,8 @@ const createBruxo = (req, res) => {
 
 
 
-const nomeExiste = aliens.some(
-    (a) => a.nome.toLowerCase() === nome.toLowerCase()
+const nomeExiste = bruxos.some(
+    (b) => b.nome.toLowerCase() === nome.toLowerCase()
   );
 
   if (nomeExiste) {
@@ -68,13 +73,6 @@ const nomeExiste = aliens.some(
     suggestions: [
         "Check the wizard nome",
       ]
-  });
-}
-
-if ((!autorizacao || autorizacao !== true)) {
-  return res.status(400).json({
-    success: false,
-    message: "Este alien tem um nível de poder alto. A atualização requer autorizacao: true."
   });
 }
 
